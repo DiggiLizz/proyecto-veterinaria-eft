@@ -4,18 +4,17 @@ import store from './store/store';
 import './index.css';
 import App from './App.jsx';
 
-// La función prepare aquí debe ser idéntica a la de App.jsx para consistencia
 async function prepare() {
   const isGitHubPages = window.location.hostname.includes('github.io');
+  const baseUrl = import.meta.env.BASE_URL; // El GPS inteligente de Vite
   
   if (import.meta.env.DEV || isGitHubPages) {
     const { worker } = await import('./mocks/browser');
     return worker.start({ 
       onUnhandledRequest: 'bypass',
       serviceWorker: {
-        url: isGitHubPages 
-          ? '/proyecto-veterinaria-eft/mockServiceWorker.js' 
-          : '/mockServiceWorker.js'
+        // Concatenamos la base (que ya trae la barra final) con el archivo
+        url: `${baseUrl}mockServiceWorker.js` 
       }
     });
   }
