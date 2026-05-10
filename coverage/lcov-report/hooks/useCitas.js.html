@@ -123,16 +123,24 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,14 +150,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -157,18 +165,24 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,6 +192,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,23 +201,21 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from 'react';
 &nbsp;
-const API = 'http://localhost:3000/api';
+const API = '/api';
 &nbsp;
-/**
- * Formatea una fecha Date a string 'YYYY-MM-DD'
- * para usarla como parámetro del endpoint
- */
+// convierte cualquier formato de fecha al string 'YYYY-MM-DD' que espera el endpoint —
+// como traducir la fecha del calendario de pared al formato que entiende el sistema
 const toISODate = (date) =&gt; {
   if (!date) return null;
+  // si ya es string lo devolvemos intacto sin procesar —
+  // como no volver a sellar un formulario que ya tiene el sello correcto
   <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof date === 'string') return date;
 <span class="cstat-no" title="statement not covered" >  return date.toISOString().split('T')[0];</span>
 };
 &nbsp;
 /**
  * useCitas
- * Retorna las citas de un día específico vía REST
- * El backend ya aplica el límite de 8 citas por día
- *
+ * retorna las citas de un día específico vía REST
  * @param {Date|string} fecha - fecha a consultar (Date o 'YYYY-MM-DD')
  */
 export const useCitas = (fecha) =&gt; {
@@ -210,6 +224,8 @@ export const useCitas = (fecha) =&gt; {
   const [error, setError] = useState(null);
 &nbsp;
   useEffect(() =&gt; {
+    // el controller permite cancelar el fetch si el componente se desmonta o la fecha cambia —
+    // como colgar el teléfono antes de que contesten si ya no necesitamos la respuesta
     const controller = new AbortController();
 &nbsp;
     const fetchCitas = async () =&gt; {
@@ -217,6 +233,8 @@ export const useCitas = (fecha) =&gt; {
         setLoading(true);
         setError(null);
 &nbsp;
+        // construimos la URL con o sin parámetro de fecha según lo que llegue —
+        // como pedir el turno de un día específico o pedir todos los turnos si no hay filtro
         const fechaISO = toISODate(fecha);
         const url = fechaISO
           ? `${API}/citas?fecha=${fechaISO}`
@@ -224,11 +242,15 @@ export const useCitas = (fecha) =&gt; {
 &nbsp;
         const res = await fetch(url, { signal: controller.signal });
 &nbsp;
+        // ok: false es una respuesta HTTP de error, no una excepción de red —
+        // como recibir una carta que dice "no disponible" en vez de que el correo se pierda
         if (!res.ok) throw new Error(`Error ${res.status}: no se pudo obtener las citas`);
 &nbsp;
         const data = await res.json();
         setCitas(data);
       } catch (err) {
+        // ignoramos el AbortError porque es un cancelación intencional, no un fallo —
+        // como no anotar "llamada fallida" cuando fuimos nosotros los que colgamos
         <span class="missing-if-branch" title="else path not taken" >E</span>if (err.name !== 'AbortError') {
           setError(err.message);
         }
@@ -239,8 +261,10 @@ export const useCitas = (fecha) =&gt; {
 &nbsp;
     fetchCitas();
 &nbsp;
+    // cancelamos el fetch pendiente al desmontar o antes del siguiente efecto —
+    // como dejar instrucciones de no atender la llamada si ya salimos de la sala
     return () =&gt; controller.abort();
-  }, [toISODate(fecha)]); // re-fetch solo si cambia la fecha
+  }, [toISODate(fecha)]); // re-fetch solo si cambia la fecha expresada como string ISO
 &nbsp;
   return { citas, loading, error };
 };</pre></td></tr></table></pre>
@@ -250,7 +274,7 @@ export const useCitas = (fecha) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T20:38:41.837Z
+                at 2026-05-10T23:28:21.503Z
             </div>
         <script src="../prettify.js"></script>
         <script>
