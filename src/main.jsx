@@ -4,21 +4,25 @@ import store from './store/store';
 import './index.css';
 import App from './App.jsx';
 
-// prepare — abre la clínica antes de recibir al primer paciente,
-// activa el guardia de la puerta (msw) solo en desarrollo
-// para que intercepte las peticiones desde el primer momento
+// La función prepare aquí debe ser idéntica a la de App.jsx para consistencia
 async function prepare() {
-  if (import.meta.env.DEV) {
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  
+  if (import.meta.env.DEV || isGitHubPages) {
     const { worker } = await import('./mocks/browser');
-    await worker.start({ onUnhandledRequest: 'bypass' });
+    return worker.start({ 
+      onUnhandledRequest: 'bypass',
+      serviceWorker: {
+        url: isGitHubPages 
+          ? '/proyecto-veterinaria-eft/mockServiceWorker.js' 
+          : '/mockServiceWorker.js'
+      }
+    });
   }
 }
 
-// arrancamos la clínica — primero el guardia, luego abrimos la puerta al público
 prepare().then(() => {
   createRoot(document.getElementById('root')).render(
-
-    // provider — el cerebro central (redux) disponible en toda la clínica
     <Provider store={store}>
       <App />
     </Provider>

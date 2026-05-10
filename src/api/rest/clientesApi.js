@@ -1,9 +1,7 @@
 // clientesapi.js
 // capa rest para el recurso clientes — solo lectura,
 // como el archivador de recepción que se puede consultar pero no alterar
-
-// dirección del mock — json-server escuchando en el puerto 3000
-const API = 'http://localhost:3000/api';
+const API = '/api';
 
 // getclientes — trae todas las carpetas del archivador de tutores,
 // cada cliente viene con sus mascotas embebidas en la misma respuesta
