@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // dirección del laboratorio graphql mock — json-server en el puerto 3000
-const GRAPHQL_URL = 'http://localhost:3000/api/graphql';
+const GRAPHQL_URL = '/api/graphql';
 
 // executequery — el mensajero interno que lleva el formulario al laboratorio
 // y devuelve solo el campo data, sin el sobre ni los metadatos de la respuesta
