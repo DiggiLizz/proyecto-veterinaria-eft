@@ -1,16 +1,93 @@
-# React + Vite
+🐾 Cuidado Animal — Sistema de Gestión Veterinaria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+"Un sistema bien diseñado, como una buena consulta veterinaria, debe ser claro, eficiente y confiable."
 
-Currently, two official plugins are available:
+¡Bienvenido/a al sistema de gestión de la veterinaria Cuidado Animal! Este proyecto nació de la necesidad de digitalizar y organizar la información de clientes, mascotas y citas en un solo lugar.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🚀 ¿Qué hace este sistema?
+El sistema permite:
 
-## React Compiler
+👥 Gestionar clientes — Ver el listado completo con sus datos de contacto y mascotas asociadas
+🐶 Ver mascotas — Acceder al detalle de cada mascota con su historial médico completo
+📅 Consultar citas — Filtrar las atenciones agendadas por día (máximo 8 por día), mostrando veterinario, mascota y dueño
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+🧬 Stack Tecnológico
+CapaTecnologíaUIReact 19 + Tailwind CSSNavegaciónReact Router DOM v7Estado globalRedux ToolkitComunicación RESTAxios + MSW (mock)Comunicación GraphQLApollo Client + MSW (mock)Pruebas unitariasJest + React Testing LibraryPruebas E2ECypress
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+⚙️ Instalación y ejecución
+Requisitos previos
+
+Node.js v18 o superior
+npm v9 o superior
+
+Pasos
+bash# 1. Clonar el repositorio
+git clone https://github.com/DiggiLizz/proyecto-veterinaria-eft.git
+
+# 2. Entrar al directorio
+cd proyecto-veterinaria-eft
+
+# 3. Instalar dependencias
+npm install
+
+# 4. Iniciar en modo desarrollo
+npm run dev
+La aplicación estará disponible en http://localhost:5173
+
+🗺️ Rutas de la aplicación
+RutaDescripción/Página de inicio con resumen del sistema/clientesListado de clientes y sus mascotas/clientes/:idDetalle de un cliente específico/citasCitas del día con filtro por fecha
+
+🧪 Pruebas
+Pruebas unitarias (Jest)
+bash# Ejecutar todos los tests
+npm test
+
+# Ver reporte de cobertura
+npm run test:coverage
+✅ Cobertura actual: 94.73% de líneas cubiertas — supera el umbral del 70%.
+Pruebas end-to-end (Cypress)
+bash# Asegurarse de que la app esté corriendo primero
+npm run dev
+
+# Abrir Cypress en otra terminal
+npx cypress open
+Seleccionar E2E Testing → Chrome → citas.cy.js
+✅ 17/17 tests E2E pasando.
+
+📁 Estructura del proyecto
+src/
+  api/           # Integración REST y GraphQL
+  components/    # Componentes reutilizables
+    citas/       # CitaCard, CitasList, FiltroFecha
+    clientes/    # ClienteCard, ClienteDetalle, ClientesList
+    mascotas/    # MascotaCard, MascotaDetalle, HistorialMedico
+    ui/          # Badge, Spinner, EmptyState
+  data/          # Base de datos mock (db.json)
+  hooks/         # Custom hooks (useCitas, useClientes, useGraphQL)
+  mocks/         # MSW handlers para interceptar peticiones
+  models/        # Modelos de datos
+  pages/         # Páginas de la aplicación
+  store/         # Redux store y slices
+  utils/         # Utilidades y constantes
+tests/
+  unit/          # Pruebas unitarias organizadas por tipo
+    components/
+    hooks/
+    utils/
+    ui/
+    store/
+cypress/
+  e2e/           # Pruebas end-to-end
+
+🔬 Arquitectura del backend mock
+El backend es completamente simulado usando MSW (Mock Service Worker), que intercepta las peticiones HTTP en el navegador sin necesitar un servidor real.
+
+REST → endpoints /api/clientes, /api/citas, /api/mascotas
+GraphQL → endpoint /api/graphql con queries GetClientes, GetCliente, GetCitasPorFecha
+
+
+👩‍💻 Autor
+Lilian Zapata
+Bimestre 9/Front2
+Desarrollado como parte de la Evaluación Final Transversal
