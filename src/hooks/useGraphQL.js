@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-// dirección del laboratorio graphql mock — json-server en el puerto 3000
+// dirección del laboratorio graphql mock 
 const GRAPHQL_URL = '/api/graphql';
 
 // executequery — el mensajero interno que lleva el formulario al laboratorio

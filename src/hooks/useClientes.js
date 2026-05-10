@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
-// dirección del mock — json-server escuchando en el puerto 3000
-const API = 'http://localhost:3000/api';
+const API = '/api';
 
 // useclientes — el asistente que trae todas las carpetas del archivador,
 // avisa mientras busca, entrega la lista cuando llega y reporta si algo falla

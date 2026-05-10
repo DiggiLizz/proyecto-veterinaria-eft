@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API = 'http://localhost:3000/api';
+const API = '/api';
 
 // convierte cualquier formato de fecha al string 'YYYY-MM-DD' que espera el endpoint —
 // como traducir la fecha del calendario de pared al formato que entiende el sistema
@@ -14,9 +14,7 @@ const toISODate = (date) => {
 
 /**
  * useCitas
- * Retorna las citas de un día específico vía REST
- * El backend ya aplica el límite de 8 citas por día
- *
+ * retorna las citas de un día específico vía REST
  * @param {Date|string} fecha - fecha a consultar (Date o 'YYYY-MM-DD')
  */
 export const useCitas = (fecha) => {
