@@ -1,6 +1,6 @@
-// ─────────────────────────────────────────────
-// E2E — HomePage
-// ─────────────────────────────────────────────
+// e2e — homepage
+// verifica que la recepción de la clínica carga correctamente
+// y que los accesos directos llevan a las salas correctas
 describe('HomePage', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/');
@@ -37,9 +37,8 @@ describe('HomePage', () => {
   });
 });
 
-// ─────────────────────────────────────────────
-// E2E — Página Clientes
-// ─────────────────────────────────────────────
+// e2e — página clientes
+// verifica que el archivador de tutores carga sin errores críticos
 describe('Página Clientes', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/clientes');
@@ -58,9 +57,8 @@ describe('Página Clientes', () => {
   });
 });
 
-// ─────────────────────────────────────────────
-// E2E — Página Citas
-// ─────────────────────────────────────────────
+// e2e — página citas
+// verifica que la agenda del día carga con el filtro de fecha operativo
 describe('Página Citas', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/citas');
@@ -83,9 +81,8 @@ describe('Página Citas', () => {
   });
 });
 
-// ─────────────────────────────────────────────
-// E2E — Navegación general
-// ─────────────────────────────────────────────
+// e2e — navegación general
+// verifica que los pasillos entre salas funcionan en ambas direcciones
 describe('Navegación', () => {
   it('redirige correctamente a la home desde /', () => {
     cy.visit('http://localhost:5173/');

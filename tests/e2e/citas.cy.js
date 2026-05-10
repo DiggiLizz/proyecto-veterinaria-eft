@@ -1,13 +1,5 @@
-/**
- * tests/e2e/citas.cy.js
- * Tests E2E — Página de Citas
- *
- * Asume que el backend REST corre en http://localhost:3000/api
- * y que la app está en http://localhost:5173
- */
-
-// ── Fixtures inline basadas en db.json ──────────────────────────────────────
-
+// fixtures inline — los datos de prueba de la clínica,
+// como tener fichas de pacientes preparadas antes de empezar el simulacro
 const CITAS_10_JUNIO = [
   {
     id: 'a1', fecha: '2025-06-10', hora: '09:00', estado: 'confirmada',
@@ -67,6 +59,7 @@ const CITAS_10_JUNIO = [
   },
 ];
 
+// agenda del 11 — solo dos pacientes, jornada liviana
 const CITAS_11_JUNIO = [
   {
     id: 'a9', fecha: '2025-06-11', hora: '09:00', estado: 'confirmada',
@@ -84,23 +77,21 @@ const CITAS_11_JUNIO = [
   },
 ];
 
+// día sin pacientes — la clínica está vacía
 const CITAS_VACIO = [];
 
-// ── Helper: intercepta GET /api/citas?fecha=YYYY-MM-DD ──────────────────────
-
+// interceptcitas — le dice al guardia de la puerta qué responder
+// cuando cypress pida la agenda de un día específico,
+// como preparar las fichas del día antes del simulacro
 const interceptCitas = (fecha, body) => {
   cy.intercept('GET', `**/api/citas?fecha=${fecha}`, { statusCode: 200, body }).as(`citas_${fecha}`);
 };
 
-// ────────────────────────────────────────────────────────────────────────────
-
 describe('Página de Citas', () => {
 
-  // ── 1. Carga inicial ───────────────────────────────────────────────────────
-
+  // ── carga inicial — verificamos que la clínica abre correctamente ──────────
   describe('Carga inicial', () => {
     beforeEach(() => {
-      // Interceptamos la fecha de hoy con datos del 10 de junio para pruebas estables
       cy.intercept('GET', '**/api/citas*', { statusCode: 200, body: CITAS_10_JUNIO }).as('citasHoy');
       cy.visit('/citas');
       cy.wait('@citasHoy');
@@ -119,7 +110,7 @@ describe('Página de Citas', () => {
     });
 
     it('muestra el spinner mientras carga', () => {
-      // Interceptamos con delay para capturar el spinner
+      // añadimos delay para capturar el spinner antes de que lleguen los datos
       cy.intercept('GET', '**/api/citas*', (req) => {
         req.reply({ delay: 500, statusCode: 200, body: CITAS_10_JUNIO });
       }).as('citasDelay');
@@ -130,8 +121,7 @@ describe('Página de Citas', () => {
     });
   });
 
-  // ── 2. Listado de citas ────────────────────────────────────────────────────
-
+  // ── listado de citas — verificamos que el tablero del día muestra todo bien ─
   describe('Listado de citas del día', () => {
     beforeEach(() => {
       cy.intercept('GET', '**/api/citas*', { statusCode: 200, body: CITAS_10_JUNIO }).as('citasCargadas');
@@ -172,7 +162,7 @@ describe('Página de Citas', () => {
     });
 
     it('muestra las notas cuando existen', () => {
-      // cita a2 tiene notas
+      // la cita a2 tiene notas para el tutor
       cy.get('[data-testid="cita-card"]').eq(1).contains('Traer fotos de la piel en crisis');
     });
 
@@ -189,8 +179,7 @@ describe('Página de Citas', () => {
     });
   });
 
-  // ── 3. Filtro de fecha ─────────────────────────────────────────────────────
-
+  // ── filtro de fecha — verificamos que cambiar el día actualiza la agenda ───
   describe('Filtro de fecha', () => {
     beforeEach(() => {
       interceptCitas('2025-06-10', CITAS_10_JUNIO);
@@ -236,10 +225,10 @@ describe('Página de Citas', () => {
     });
   });
 
-  // ── 4. Estado de error ─────────────────────────────────────────────────────
-
+  // ── estado de error — verificamos que la clínica maneja bien un fallo del sistema ─
   describe('Estado de error', () => {
     it('muestra mensaje de error cuando la API falla', () => {
+      // simulamos que el archivador está caído
       cy.intercept('GET', '**/api/citas*', { statusCode: 500, body: {} }).as('citasError');
       cy.visit('/citas');
       cy.wait('@citasError');

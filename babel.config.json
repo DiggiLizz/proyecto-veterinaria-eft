@@ -1,6 +1,11 @@
 {
   "presets": [
+    // le enseñamos a babel a hablar el javascript moderno que entiende el laboratorio —
+    // como traducir las fichas clínicas al idioma que procesa la máquina de análisis
     ["@babel/preset-env", { "targets": { "node": "current" } }],
+
+    // le enseñamos a babel a leer jsx —
+    // como enseñarle al laboratorio a procesar las fichas con componentes de react
     ["@babel/preset-react", { "runtime": "automatic" }]
   ]
 }

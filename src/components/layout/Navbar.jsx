@@ -1,18 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { RUTAS } from '../../utils/constants';
 
-/**
- * Navbar
- * Barra de navegación principal de la aplicación
- * Usa NavLink para resaltar la ruta activa
- */
+// navbar — el letrero de entrada de la clínica con las secciones disponibles,
+// como el panel de direcciones que indica dónde está recepción, consultas y agenda
 const Navbar = () => {
+
+  // estilo base de cada sección del panel — cómo se ve un letrero sin seleccionar
   const linkBase = `
     relative px-4 py-1.5 text-sm font-medium rounded-lg
     transition-all duration-150
     text-stone-500 hover:text-emerald-700 hover:bg-emerald-50
   `;
 
+  // estilo de la sección activa — el letrero iluminado que indica dónde estás
   const linkActivo = `
     text-emerald-700 bg-emerald-50
   `;
@@ -23,7 +23,7 @@ const Navbar = () => {
         className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between"
         aria-label="Navegación principal"
       >
-        {/* Logo / Marca */}
+        {/* logo — la huella en la puerta principal, vuelve al inicio al hacer click */}
         <NavLink
           to={RUTAS.HOME}
           className="flex items-center gap-2 group"
@@ -35,8 +35,10 @@ const Navbar = () => {
           </span>
         </NavLink>
 
-        {/* Links de navegación */}
+        {/* panel de secciones — los letreros que indican las áreas de la clínica */}
         <div className="flex items-center gap-1">
+
+          {/* acceso al archivador de tutores y sus pacientes */}
           <NavLink
             to={RUTAS.CLIENTES}
             className={({ isActive }) =>
@@ -46,6 +48,7 @@ const Navbar = () => {
             Clientes
           </NavLink>
 
+          {/* acceso a la agenda de turnos del día */}
           <NavLink
             to={RUTAS.CITAS}
             className={({ isActive }) =>

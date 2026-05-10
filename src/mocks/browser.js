@@ -1,6 +1,7 @@
 import { setupWorker } from 'msw/browser';
 import { handlers } from './handlers';
 
-// Service Worker que intercepta las peticiones en el navegador
-// Se inicia en main.jsx solo en modo development
+// el guardia de la clínica — intercepta cada petición que entra
+// antes de que llegue al servidor, como el portero que revisa
+// si el paciente tiene cita antes de dejarlo pasar a consulta
 export const worker = setupWorker(...handlers);

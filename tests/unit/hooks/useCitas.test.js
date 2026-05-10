@@ -1,9 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useCitas } from '../../../src/hooks/useCitas';
 
-// ─────────────────────────────────────────────
 // Helpers
-// ─────────────────────────────────────────────
+
+// dos citas de distintas especies y estados para cubrir variedad de casos —
+// como tener fichas de pacientes distintos preparadas antes de la jornada
 const citasMock = [
   {
     id: 1,
@@ -23,21 +24,26 @@ const citasMock = [
   },
 ];
 
-// ─────────────────────────────────────────────
+
 // Setup / Teardown del mock de fetch
-// ─────────────────────────────────────────────
+
+// reemplazamos fetch global por un mock controlable antes de cada test —
+// como conectar una línea telefónica falsa antes de cada llamada de prueba
 beforeEach(() => {
   global.fetch = jest.fn();
 });
 
+// restauramos todos los mocks al estado original después de cada test —
+// como descolgar la línea falsa para que el siguiente test empiece limpio
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-// ─────────────────────────────────────────────
+
 // Tests
-// ─────────────────────────────────────────────
 describe('useCitas', () => {
+  // leemos el estado sincrónico antes de que fetch resuelva —
+  // como revisar el tablero justo cuando el médico acaba de salir a buscar la ficha
   test('inicia con loading=true, citas=[] y error=null', () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -65,6 +71,8 @@ describe('useCitas', () => {
     expect(result.current.error).toBeNull();
   });
 
+  // verificamos la URL construida por el hook, no solo que fetch fue llamado —
+  // como revisar que el pedido de la ficha incluye el número de turno correcto
   test('llama al endpoint con el parámetro de fecha correcto', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -81,6 +89,8 @@ describe('useCitas', () => {
     );
   });
 
+  // con fecha null el hook no debe agregar query param de fecha a la URL —
+  // como pedir todas las citas del sistema sin filtrar por ningún día
   test('llama al endpoint sin parámetro si fecha es null', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -97,6 +107,8 @@ describe('useCitas', () => {
     );
   });
 
+  // ok: false simula una respuesta HTTP de error sin lanzar excepción —
+  // como recibir una carta que dice "no encontrado" en vez de que el correo se pierda
   test('setea error cuando la respuesta no es ok', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: false,
@@ -111,6 +123,8 @@ describe('useCitas', () => {
     expect(result.current.citas).toEqual([]);
   });
 
+  // mockRejectedValue simula un fallo de red antes de recibir respuesta —
+  // como que la llamada no llegue nunca al destinatario por falta de señal
   test('setea error cuando fetch lanza una excepción de red', async () => {
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -121,6 +135,8 @@ describe('useCitas', () => {
     expect(result.current.error).toBe('Network error');
   });
 
+  // respuesta vacía válida no debe tratarse como error —
+  // como que la agenda del día esté libre sin que eso sea un problema
   test('retorna lista vacía si el servidor responde con []', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,

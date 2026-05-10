@@ -4,21 +4,16 @@ import HistorialMedico from './HistorialMedico';
 import Spinner from '../ui/Spinner';
 import EmptyState from '../ui/EmptyState';
 
-/**
- * MascotaDetalle
- * Vista completa de una sola mascota con su historial médico
- * Recibe la mascota como prop (ya viene embebida desde ClienteDetalle
- * o desde una cita — no necesita fetch propio)
- *
- * Props:
- *   mascota:  objeto Mascota con historialMedico[]
- *   loading:  boolean opcional
- */
+// mascotadetalle — el expediente completo del paciente,
+// muestra la ficha resumen y el cuaderno clínico con todas sus consultas previas
+// no necesita buscar datos porque ya vienen embebidos desde el tutor o la cita
 const MascotaDetalle = ({ mascota, loading = false }) => {
   const navigate = useNavigate();
 
+  // buscando el expediente del paciente
   if (loading) return <Spinner texto="Cargando mascota..." />;
 
+  // el paciente no existe en el sistema
   if (!mascota) {
     return (
       <EmptyState
@@ -32,7 +27,7 @@ const MascotaDetalle = ({ mascota, loading = false }) => {
   return (
     <div className="space-y-5" data-testid="mascota-detalle">
 
-      {/* Botón volver */}
+      {/* botón volver — cerrar el expediente y volver al archivador */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-emerald-700 transition-colors"
@@ -40,10 +35,10 @@ const MascotaDetalle = ({ mascota, loading = false }) => {
         ← Volver
       </button>
 
-      {/* Tarjeta resumen */}
+      {/* ficha resumen — la etiqueta de la jaula con los datos básicos del paciente */}
       <MascotaCard mascota={mascota} />
 
-      {/* Historial médico */}
+      {/* cuaderno clínico — todas las consultas anteriores del paciente */}
       <div className="card">
         <h4 className="titulo-display text-lg mb-4">Historial médico</h4>
         <HistorialMedico historial={mascota.historialMedico} />

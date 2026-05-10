@@ -156,16 +156,7 @@
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
 <a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L94'></a><a href='#L94'>94</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,10 +164,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -261,15 +253,12 @@
 import { EMOJI_ESPECIE } from '../../utils/constants';
 import { formatHora } from '../../utils/formatDate';
 &nbsp;
-/**
- * CitaCard
- * Tarjeta de una cita agendada
- * Muestra: hora, mascota, dueño y veterinario
- *
- * Props:
- *   cita: objeto Cita con mascota, cliente y veterinario embebidos
- */
+// citacard — la ficha de turno que se pega en la puerta de la sala de espera,
+// muestra todo lo que el veterinario necesita saber antes de llamar al paciente:
+// a qué hora llega, quién es la mascota, quién es el tutor y quién la atiende
 const CitaCard = ({ cita }) =&gt; {
+&nbsp;
+  // si la especie no está en el diccionario, usamos la huella genérica
   const emojiEspecie = EMOJI_ESPECIE[cita.mascota?.especie] ?? '🐾';
 &nbsp;
   return (
@@ -277,7 +266,7 @@ const CitaCard = ({ cita }) =&gt; {
       className="card flex flex-col gap-3"
       data-testid="cita-card"
     &gt;
-      {/* Fila superior: hora y estado */}
+      {/* hora de llegada y estado del turno — lo primero que mira la recepcionista */}
       &lt;div className="flex items-center justify-between"&gt;
         &lt;span className="text-2xl font-bold text-emerald-700 tracking-tight"&gt;
           {formatHora(cita.hora)}
@@ -287,7 +276,7 @@ const CitaCard = ({ cita }) =&gt; {
 &nbsp;
       &lt;div className="separador" /&gt;
 &nbsp;
-      {/* Mascota */}
+      {/* paciente — especie, nombre y raza, como la etiqueta de la jaula */}
       &lt;div className="flex items-center gap-2"&gt;
         &lt;span className="text-xl select-none" aria-hidden="true"&gt;
           {emojiEspecie}
@@ -304,7 +293,7 @@ const CitaCard = ({ cita }) =&gt; {
         &lt;/div&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Dueño */}
+      {/* tutor — quien firma el consentimiento y paga la consulta */}
       &lt;div className="flex items-center gap-2"&gt;
         &lt;span className="text-xl select-none" aria-hidden="true"&gt;👤&lt;/span&gt;
         &lt;div className="min-w-0"&gt;
@@ -318,7 +307,7 @@ const CitaCard = ({ cita }) =&gt; {
         &lt;/div&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Veterinario */}
+      {/* médico a cargo — el que tiene el estetoscopio ese día */}
       &lt;div className="flex items-center gap-2"&gt;
         &lt;span className="text-xl select-none" aria-hidden="true"&gt;🩺&lt;/span&gt;
         &lt;div className="min-w-0"&gt;
@@ -332,7 +321,7 @@ const CitaCard = ({ cita }) =&gt; {
         &lt;/div&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Motivo si existe */}
+      {/* motivo de consulta — el "¿qué le pasa hoy?" de la anamnesis */}
       {cita.motivo &amp;&amp; (
         &lt;&gt;
           &lt;div className="separador" /&gt;
@@ -343,7 +332,7 @@ const CitaCard = ({ cita }) =&gt; {
         &lt;/&gt;
       )}
 &nbsp;
-      {/* Notas si existen */}
+      {/* notas clínicas — observaciones que el vet dejó en el expediente */}
       {cita.notas &amp;&amp; (
         &lt;p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2"&gt;
           📌 {cita.notas}
@@ -353,15 +342,14 @@ const CitaCard = ({ cita }) =&gt; {
   );
 };
 &nbsp;
-export default CitaCard;
-&nbsp;</pre></td></tr></table></pre>
+export default CitaCard;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T18:03:51.654Z
+                at 2026-05-10T20:38:41.837Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -3,23 +3,23 @@ import db from '../data/db.json';
 import { filtrarCitasPorFecha } from '../models/Cita';
 
 // ─────────────────────────────────────────────
-// BASE URL para todos los endpoints REST
+// dirección de la clínica — todos los endpoints salen desde aquí
 // ─────────────────────────────────────────────
-const API = 'http://localhost:3000/api';
+const API = '/api';
 
 // ─────────────────────────────────────────────
-// HANDLERS REST
+// recepción rest — atiende las peticiones http una por una,
+// como la recepcionista que busca fichas en el archivador
 // ─────────────────────────────────────────────
 export const restHandlers = [
 
-  // GET /api/clientes
-  // Retorna todos los clientes (sin mascotas embebidas)
+  // trae todas las fichas de clientes registrados en la clínica
   http.get(`${API}/clientes`, () => {
     return HttpResponse.json(db.clientes);
   }),
 
-  // GET /api/clientes/:id
-  // Retorna un cliente con sus mascotas embebidas (populate manual)
+  // busca la ficha de un cliente específico y adjunta sus mascotas,
+  // como sacar el expediente del dueño con todas sus mascotas juntas
   http.get(`${API}/clientes/:id`, ({ params }) => {
     const cliente = db.clientes.find((c) => c.id === params.id);
 
@@ -31,12 +31,11 @@ export const restHandlers = [
     }
 
     const mascotas = db.mascotas.filter((m) => m.clienteId === cliente.id);
-
     return HttpResponse.json({ ...cliente, mascotas });
   }),
 
-  // GET /api/mascotas/:id
-  // Retorna una mascota con su cliente embebido
+  // busca la ficha clínica de una mascota y adjunta los datos de su dueño,
+  // como el historial médico del paciente con la info de contacto del tutor
   http.get(`${API}/mascotas/:id`, ({ params }) => {
     const mascota = db.mascotas.find((m) => m.id === params.id);
 
@@ -48,52 +47,46 @@ export const restHandlers = [
     }
 
     const cliente = db.clientes.find((c) => c.id === mascota.clienteId);
-
     return HttpResponse.json({ ...mascota, cliente });
   }),
 
-  // GET /api/citas?fecha=YYYY-MM-DD
-  // Retorna citas del día con datos de mascota, cliente y veterinario embebidos
-  // Aplica límite de 8 citas por día (regla de negocio)
+  // consulta la agenda del día — filtra por fecha y enriquece cada cita
+  // con su mascota, dueño y veterinario, como preparar la tabla de turnos
+  // antes de abrir la clínica en la mañana
   http.get(`${API}/citas`, ({ request }) => {
     const url = new URL(request.url);
     const fecha = url.searchParams.get('fecha');
 
     let citas = fecha ? filtrarCitasPorFecha(db.citas, fecha) : db.citas;
 
-    // Populate: enriquecer cada cita con datos relacionados
     const citasEnriquecidas = citas.map((cita) => {
       const mascota = db.mascotas.find((m) => m.id === cita.mascotaId) ?? null;
       const cliente = db.clientes.find((c) => c.id === cita.clienteId) ?? null;
       const veterinario = db.veterinarios.find((v) => v.id === cita.veterinarioId) ?? null;
 
-      return {
-        ...cita,
-        mascota,
-        cliente,
-        veterinario,
-      };
+      return { ...cita, mascota, cliente, veterinario };
     });
 
     return HttpResponse.json(citasEnriquecidas);
   }),
 
-  // GET /api/veterinarios
-  // Retorna todos los veterinarios
+  // lista el equipo médico disponible en la clínica
   http.get(`${API}/veterinarios`, () => {
     return HttpResponse.json(db.veterinarios);
   }),
 ];
 
 // ─────────────────────────────────────────────
-// HANDLERS GRAPHQL
+// recepción graphql — atiende consultas más específicas,
+// como un especialista que solo responde lo que le preguntas
+// en vez de darte todo el expediente completo
 // ─────────────────────────────────────────────
-const graphqlHandler = graphql.link(`${API}/graphql`);
+const graphqlHandler = graphql.link('/api/graphql');
 
 export const graphqlHandlers = [
 
-  // Query: clientes
-  // Retorna lista de clientes con sus mascotas
+  // trae todos los clientes con sus mascotas incluidas,
+  // como el listado completo de tutores con sus pacientes
   graphqlHandler.query('GetClientes', () => {
     const clientes = db.clientes.map((cliente) => ({
       ...cliente,
@@ -103,8 +96,8 @@ export const graphqlHandlers = [
     return HttpResponse.json({ data: { clientes } });
   }),
 
-  // Query: cliente(id)
-  // Retorna un cliente con mascotas e historial médico
+  // busca un tutor por id y adjunta sus mascotas,
+  // como abrir el expediente de un dueño específico en consulta
   graphqlHandler.query('GetCliente', ({ variables }) => {
     const cliente = db.clientes.find((c) => c.id === variables.id);
 
@@ -115,14 +108,13 @@ export const graphqlHandlers = [
     }
 
     const mascotas = db.mascotas.filter((m) => m.clienteId === cliente.id);
-
     return HttpResponse.json({
       data: { cliente: { ...cliente, mascotas } },
     });
   }),
 
-  // Query: citas(fecha)
-  // Retorna citas del día con populate completo
+  // filtra las citas por fecha y arma el detalle completo de cada turno,
+  // como revisar qué pacientes están agendados para una jornada específica
   graphqlHandler.query('GetCitasPorFecha', ({ variables }) => {
     const citas = variables.fecha
       ? filtrarCitasPorFecha(db.citas, variables.fecha)
@@ -139,8 +131,5 @@ export const graphqlHandlers = [
   }),
 ];
 
-// ─────────────────────────────────────────────
-// EXPORT UNIFICADO
-// Usado por browser.js y por los tests de Jest
-// ─────────────────────────────────────────────
+// todos los handlers juntos — la clínica completa lista para atender
 export const handlers = [...restHandlers, ...graphqlHandlers];

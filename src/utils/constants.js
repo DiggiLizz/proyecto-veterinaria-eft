@@ -1,31 +1,21 @@
-/**
- * constants.js
- * Constantes globales de la aplicación
- * Punto único de verdad para valores que se repiten en el proyecto
- */
+// dirección de la clínica — punto de partida de todas las peticiones al sistema
+export const API_BASE_URL = '/api';
+export const GRAPHQL_URL  = `${API_BASE_URL}/graphql`;
 
-// ─────────────────────────────────────────────
-// API
-// ─────────────────────────────────────────────
-export const API_BASE_URL = 'http://localhost:3000/api';
-export const GRAPHQL_URL = `${API_BASE_URL}/graphql`;
+// reglas de negocio — las normas internas de la clínica
 
-// ─────────────────────────────────────────────
-// REGLAS DE NEGOCIO
-// ─────────────────────────────────────────────
+// máximo de pacientes que se pueden atender en una jornada
 export const MAX_CITAS_POR_DIA = 8;
 
-// ─────────────────────────────────────────────
-// ESTADOS DE CITA
-// ─────────────────────────────────────────────
+// estados de cita — los stickers de colores que se pegan en cada turno
 export const ESTADOS_CITA = {
-  PENDIENTE: 'pendiente',
+  PENDIENTE:  'pendiente',
   CONFIRMADA: 'confirmada',
   COMPLETADA: 'completada',
-  CANCELADA: 'cancelada',
+  CANCELADA:  'cancelada',
 };
 
-// Colores Tailwind para cada estado (usados en Badge)
+// color del sticker según el estado del turno — semáforo de la sala de espera
 export const COLORES_ESTADO = {
   pendiente:  'bg-yellow-100 text-yellow-800',
   confirmada: 'bg-green-100  text-green-800',
@@ -33,7 +23,7 @@ export const COLORES_ESTADO = {
   cancelada:  'bg-red-100    text-red-800',
 };
 
-// Labels legibles en español para cada estado
+// texto legible del sticker — lo que dice el cartel en español
 export const LABELS_ESTADO = {
   pendiente:  'Pendiente',
   confirmada: 'Confirmada',
@@ -41,12 +31,10 @@ export const LABELS_ESTADO = {
   cancelada:  'Cancelada',
 };
 
-// ─────────────────────────────────────────────
-// ESPECIES
-// ─────────────────────────────────────────────
+// especies — los tipos de pacientes que atiende la clínica
 export const ESPECIES = ['Perro', 'Gato', 'Ave', 'Conejo', 'Reptil', 'Otro'];
 
-// Emojis para cada especie (usados en tarjetas de mascota)
+// emoji por especie — el dibujo en la etiqueta de la jaula o ficha del paciente
 export const EMOJI_ESPECIE = {
   Perro:  '🐶',
   Gato:   '🐱',
@@ -56,9 +44,7 @@ export const EMOJI_ESPECIE = {
   Otro:   '🐾',
 };
 
-// ─────────────────────────────────────────────
-// RUTAS DE NAVEGACIÓN
-// ─────────────────────────────────────────────
+// rutas de navegación — el mapa de pasillos de la clínica
 export const RUTAS = {
   HOME:            '/',
   CLIENTES:        '/clientes',
@@ -66,15 +52,13 @@ export const RUTAS = {
   CITAS:           '/citas',
 };
 
-// ─────────────────────────────────────────────
-// TEXTOS UI REUTILIZABLES
-// ─────────────────────────────────────────────
+// textos reutilizables — los carteles estándar de la clínica
 export const TEXTOS = {
-  CARGANDO:        'Cargando...',
-  SIN_RESULTADOS:  'No hay resultados para mostrar',
-  ERROR_GENERICO:  'Ocurrió un error al cargar los datos',
-  SIN_CITAS:       'No hay citas programadas para este día',
-  SIN_CLIENTES:    'No hay clientes registrados',
-  SIN_MASCOTAS:    'Este cliente no tiene mascotas registradas',
-  SIN_HISTORIAL:   'Sin historial médico registrado',
+  CARGANDO:       'Cargando...',
+  SIN_RESULTADOS: 'No hay resultados para mostrar',
+  ERROR_GENERICO: 'Ocurrió un error al cargar los datos',
+  SIN_CITAS:      'No hay citas programadas para este día',
+  SIN_CLIENTES:   'No hay clientes registrados',
+  SIN_MASCOTAS:   'Este cliente no tiene mascotas registradas',
+  SIN_HISTORIAL:  'Sin historial médico registrado',
 };

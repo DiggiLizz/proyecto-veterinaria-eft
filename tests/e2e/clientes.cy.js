@@ -7,6 +7,8 @@
  */
 
 // ── Fixtures inline basadas en db.json ──────────────────────────────────────
+// datos de prueba hardcodeados —
+// como tener fichas de pacientes de ejemplo guardadas en el cajón
 
 const CLIENTES = [
   {
@@ -49,6 +51,8 @@ const CLIENTES = [
   },
 ];
 
+// datos completos del cliente c1 incluyendo historial médico —
+// como abrir la carpeta clínica de Ana con todas las consultas anotadas
 const CLIENTE_C1_DETALLE = {
   id: 'c1', nombre: 'Ana Martínez', telefono: '+56921112233',
   email: 'ana.martinez@gmail.com', direccion: 'Av. Providencia 1234, Santiago',
@@ -83,6 +87,8 @@ const CLIENTE_C1_DETALLE = {
   ],
 };
 
+// datos completos del cliente c2 incluyendo historial médico —
+// como sacar del archivo la carpeta de Luis para verificar sus visitas
 const CLIENTE_C2_DETALLE = {
   id: 'c2', nombre: 'Luis Herrera', telefono: '+56933445566',
   email: 'luis.herrera@outlook.com', direccion: 'Calle Las Flores 567, Ñuñoa',
@@ -103,10 +109,14 @@ const CLIENTE_C2_DETALLE = {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
+// intercepta la llamada al listado de clientes y responde con datos falsos —
+// como poner un recepcionista de utilería que siempre entrega la misma lista
 const interceptClientes = (body = CLIENTES) => {
   cy.intercept('GET', '**/api/clientes', { statusCode: 200, body }).as('clientesCargados');
 };
 
+// intercepta la llamada al detalle de un cliente específico —
+// como preparar la ficha correcta antes de que el veterinario la pida
 const interceptClienteDetalle = (id, body) => {
   cy.intercept('GET', `**/api/clientes/${id}`, { statusCode: 200, body }).as(`cliente_${id}`);
 };
@@ -118,6 +128,8 @@ describe('Página de Clientes', () => {
   // ── 1. Carga inicial ───────────────────────────────────────────────────────
 
   describe('Carga inicial', () => {
+    // montamos la intercepción y visitamos la página antes de cada test —
+    // como abrir la puerta de la clínica y encender las luces al inicio del día
     beforeEach(() => {
       interceptClientes();
       cy.visit('/clientes');
@@ -133,6 +145,8 @@ describe('Página de Clientes', () => {
     });
 
     it('muestra el spinner mientras carga', () => {
+      // retrasamos la respuesta de la API para capturar el estado de carga —
+      // como hacer esperar al cliente en la sala antes de llamarlo
       cy.intercept('GET', '**/api/clientes', (req) => {
         req.reply({ delay: 500, statusCode: 200, body: CLIENTES });
       }).as('clientesDelay');
@@ -146,6 +160,8 @@ describe('Página de Clientes', () => {
   // ── 2. Listado de clientes ─────────────────────────────────────────────────
 
   describe('Listado de clientes', () => {
+    // preparamos los datos antes de cada caso —
+    // como ordenar las fichas sobre el escritorio antes de atender
     beforeEach(() => {
       interceptClientes();
       cy.visit('/clientes');
@@ -180,6 +196,8 @@ describe('Página de Clientes', () => {
       cy.get('[data-testid="cliente-card"]').first().contains('2 mascotas');
     });
 
+    // verificamos que el singular se aplica correctamente —
+    // como asegurarse de que el letrero diga "1 turno" y no "1 turnos"
     it('muestra el badge "1 mascota" en singular para clientes con una sola mascota', () => {
       cy.get('[data-testid="cliente-card"]').eq(1).contains('1 mascota');
     });
@@ -197,6 +215,8 @@ describe('Página de Clientes', () => {
   // ── 3. Navegación al detalle ───────────────────────────────────────────────
 
   describe('Navegación al detalle del cliente', () => {
+    // preparamos tanto el listado como el detalle antes de navegar —
+    // como tener lista la ficha antes de que el cliente pase al consultorio
     beforeEach(() => {
       interceptClientes();
       interceptClienteDetalle('c1', CLIENTE_C1_DETALLE);
@@ -219,6 +239,8 @@ describe('Página de Clientes', () => {
   // ── 4. Estado vacío ────────────────────────────────────────────────────────
 
   describe('Estado vacío', () => {
+    // simulamos una base de datos sin ningún cliente registrado —
+    // como llegar a la clínica y encontrar la sala de espera completamente vacía
     it('muestra el estado vacío cuando no hay clientes', () => {
       interceptClientes([]);
       cy.visit('/clientes');
@@ -231,6 +253,8 @@ describe('Página de Clientes', () => {
   // ── 5. Estado de error ─────────────────────────────────────────────────────
 
   describe('Estado de error', () => {
+    // forzamos un fallo del servidor para probar la pantalla de error —
+    // como cortar la luz para ver si el generador de emergencia enciende
     it('muestra mensaje de error cuando la API falla', () => {
       cy.intercept('GET', '**/api/clientes', { statusCode: 500, body: {} }).as('clientesError');
       cy.visit('/clientes');
@@ -249,6 +273,8 @@ describe('Página de Detalle de Cliente', () => {
   // ── 1. Datos personales ────────────────────────────────────────────────────
 
   describe('Datos personales del cliente', () => {
+    // cargamos el detalle completo de Ana antes de verificar sus datos —
+    // como abrir la ficha del paciente antes de empezar la revisión
     beforeEach(() => {
       interceptClienteDetalle('c1', CLIENTE_C1_DETALLE);
       cy.visit('/clientes/c1');
@@ -279,6 +305,8 @@ describe('Página de Detalle de Cliente', () => {
       cy.contains('Cliente').should('be.visible');
     });
 
+    // verificamos el resumen de mascotas en la cabecera del perfil —
+    // como contar cuántas mascotas tiene registradas el dueño antes de atenderlo
     it('muestra "2 registradas" en el campo mascotas', () => {
       cy.contains('2 registradas').should('be.visible');
     });
@@ -301,6 +329,8 @@ describe('Página de Detalle de Cliente', () => {
       cy.contains('h3', 'Mascotas').should('be.visible');
     });
 
+    // contamos que aparezcan exactamente los paneles esperados —
+    // como verificar que haya una camilla por cada paciente programado
     it('muestra 2 paneles de mascota para Ana Martínez', () => {
       cy.get('[data-testid="mascota-panel"]').should('have.length', 2);
     });
@@ -337,6 +367,8 @@ describe('Página de Detalle de Cliente', () => {
       cy.get('[data-testid="mascota-panel"]').first().contains(/historial médico/i);
     });
 
+    // comprobamos que ambas consultas de Luna figuren en su historial —
+    // como revisar que el libro de visitas tenga anotadas todas las citas
     it('muestra las 2 entradas del historial de Luna', () => {
       cy.get('[data-testid="mascota-panel"]').first().within(() => {
         cy.contains('Control anual y vacunación').should('be.visible');
@@ -365,6 +397,8 @@ describe('Página de Detalle de Cliente', () => {
 
   describe('Navegación desde el detalle', () => {
     it('el botón Volver regresa a la página anterior', () => {
+      // simulamos el flujo completo: listado → detalle → listado —
+      // como entrar a la consulta, revisar la ficha y salir de nuevo a la sala
       interceptClientes();
       interceptClienteDetalle('c1', CLIENTE_C1_DETALLE);
 
@@ -377,6 +411,8 @@ describe('Página de Detalle de Cliente', () => {
     });
 
     it('navegar directamente a /clientes/c2 carga los datos de Luis Herrera', () => {
+      // accedemos al detalle por URL directa sin pasar por el listado —
+      // como ir directo al consultorio 2 sin pasar por recepción
       interceptClienteDetalle('c2', CLIENTE_C2_DETALLE);
       cy.visit('/clientes/c2');
       cy.wait('@cliente_c2');
@@ -390,6 +426,8 @@ describe('Página de Detalle de Cliente', () => {
 
   describe('Estados especiales', () => {
     it('muestra spinner mientras carga el detalle', () => {
+      // retrasamos la respuesta para capturar el indicador de carga —
+      // como hacer esperar al paciente en la puerta mientras se busca su ficha
       cy.intercept('GET', '**/api/clientes/c1', (req) => {
         req.reply({ delay: 500, statusCode: 200, body: CLIENTE_C1_DETALLE });
       }).as('clienteDelay');
@@ -400,6 +438,8 @@ describe('Página de Detalle de Cliente', () => {
     });
 
     it('muestra "Cliente no encontrado" para un id inexistente', () => {
+      // la API devuelve 404 para un cliente que no existe en el sistema —
+      // como buscar una ficha con un RUT que nunca se registró en la clínica
       cy.intercept('GET', '**/api/clientes/c99', { statusCode: 404, body: {} }).as('clienteNoExiste');
       cy.visit('/clientes/c99');
       cy.wait('@clienteNoExiste');
@@ -407,6 +447,8 @@ describe('Página de Detalle de Cliente', () => {
     });
 
     it('muestra mensaje de error si la API falla al cargar el detalle', () => {
+      // forzamos un error 500 para verificar que la UI lo comunica correctamente —
+      // como simular que el servidor se cayó justo cuando se abre la ficha
       cy.intercept('GET', '**/api/clientes/c1', { statusCode: 500, body: {} }).as('clienteError');
       cy.visit('/clientes/c1');
       cy.wait('@clienteError');

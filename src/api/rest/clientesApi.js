@@ -1,23 +1,16 @@
-/**
- * clientesApi.js
- * Capa REST para el recurso Clientes
- * El backend es un mock (MSW o json-server) en http://localhost:3000/api
- *
- * Solo lectura — el sistema no considera creación, modificación ni eliminación.
- */
+// clientesapi.js
+// capa rest para el recurso clientes — solo lectura,
+// como el archivador de recepción que se puede consultar pero no alterar
 
+// dirección del mock — json-server escuchando en el puerto 3000
 const API = 'http://localhost:3000/api';
 
-/**
- * getClientes
- * Obtiene la lista completa de clientes con sus mascotas embebidas.
- *
- * @param {AbortSignal} [signal]
- * @returns {Promise<Cliente[]>}
- */
+// getclientes — trae todas las carpetas del archivador de tutores,
+// cada cliente viene con sus mascotas embebidas en la misma respuesta
 export const getClientes = async (signal) => {
   const res = await fetch(`${API}/clientes`, { signal });
 
+  // si el archivador no respondió bien, avisamos que algo falló en la búsqueda
   if (!res.ok) {
     throw new Error(`Error ${res.status}: no se pudo obtener los clientes`);
   }
@@ -25,17 +18,12 @@ export const getClientes = async (signal) => {
   return res.json();
 };
 
-/**
- * getClientePorId
- * Obtiene un cliente con sus mascotas e historial médico embebidos.
- *
- * @param {string} id
- * @param {AbortSignal} [signal]
- * @returns {Promise<Cliente>}
- */
+// getclienteporid — saca la carpeta de un tutor específico por su número de ficha,
+// incluye sus mascotas con historial médico completo embebido en la respuesta
 export const getClientePorId = async (id, signal) => {
   const res = await fetch(`${API}/clientes/${id}`, { signal });
 
+  // si el número de ficha no existe en el archivador, avisamos que no se encontró
   if (!res.ok) {
     throw new Error(`Error ${res.status}: cliente no encontrado`);
   }

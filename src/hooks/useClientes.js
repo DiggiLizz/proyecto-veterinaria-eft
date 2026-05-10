@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 
+// dirección del mock — json-server escuchando en el puerto 3000
 const API = 'http://localhost:3000/api';
 
-/**
- * useClientes
- * Retorna la lista completa de clientes vía REST
- */
+// useclientes — el asistente que trae todas las carpetas del archivador,
+// avisa mientras busca, entrega la lista cuando llega y reporta si algo falla
 export const useClientes = () => {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // cancelador — si el componente se desmonta antes de que llegue la respuesta,
+    // le decimos al asistente que ya no hace falta que vuelva con las carpetas
     const controller = new AbortController();
 
     const fetchClientes = async () => {
@@ -28,6 +29,8 @@ export const useClientes = () => {
         const data = await res.json();
         setClientes(data);
       } catch (err) {
+        // si el asistente fue cancelado en el camino, no reportamos error —
+        // fue una cancelación intencional, no un fallo real
         if (err.name !== 'AbortError') {
           setError(err.message);
         }
@@ -44,16 +47,15 @@ export const useClientes = () => {
   return { clientes, loading, error };
 };
 
-/**
- * useClienteDetalle
- * Retorna un cliente con sus mascotas embebidas vía REST
- */
+// useclientedetalle — el asistente que saca la carpeta de un tutor específico,
+// incluye sus mascotas con historial médico embebido en la misma respuesta
 export const useClienteDetalle = (id) => {
   const [cliente, setCliente] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // sin id no hay número de ficha — el asistente no sale a buscar nada
     if (!id) return;
 
     const controller = new AbortController();
@@ -72,6 +74,7 @@ export const useClienteDetalle = (id) => {
         const data = await res.json();
         setCliente(data);
       } catch (err) {
+        // cancelación intencional — el componente se desmontó antes de que llegara la ficha
         if (err.name !== 'AbortError') {
           setError(err.message);
         }

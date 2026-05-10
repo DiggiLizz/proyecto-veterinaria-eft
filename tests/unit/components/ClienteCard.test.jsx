@@ -3,9 +3,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ClienteCard from '../../../src/components/clientes/ClienteCard';
 
-// ─────────────────────────────────────────────
 // Mock de useNavigate
-// ─────────────────────────────────────────────
+
+// capturamos las llamadas a navigate sin mover al usuario de página —
+// como interceptar el timbre de la puerta antes de que suene de verdad
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -13,9 +14,10 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-// ─────────────────────────────────────────────
 // Datos de prueba
-// ─────────────────────────────────────────────
+
+// cliente con dos mascotas de distintas especies —
+// como el dueño más completo del archivo para probar todos los campos
 const clienteConMascotas = {
   id: 1,
   nombre: 'Juan Pérez',
@@ -28,6 +30,8 @@ const clienteConMascotas = {
   ],
 };
 
+// cliente sin mascotas registradas —
+// como un dueño que se inscribió pero aún no trajo a ningún animal
 const clienteSinMascotas = {
   id: 2,
   nombre: 'Ana Gómez',
@@ -37,6 +41,8 @@ const clienteSinMascotas = {
   mascotas: [],
 };
 
+// envuelve la tarjeta en un router para que useNavigate no falle —
+// como montar el componente dentro de su entorno mínimo necesario
 const renderCard = (cliente) =>
   render(
     <MemoryRouter>
@@ -44,10 +50,10 @@ const renderCard = (cliente) =>
     </MemoryRouter>
   );
 
-// ─────────────────────────────────────────────
 // Tests
-// ─────────────────────────────────────────────
 describe('ClienteCard', () => {
+  // limpiamos el historial de llamadas antes de cada test —
+  // como borrar el registro de timbres antes de empezar el siguiente ensayo
   beforeEach(() => mockNavigate.mockClear());
 
   test('renderiza el artículo con data-testid correcto', () => {
@@ -80,6 +86,8 @@ describe('ClienteCard', () => {
     expect(screen.getByText(/2 mascotas/i)).toBeInTheDocument();
   });
 
+  // construimos un cliente de una sola mascota para aislar el caso singular —
+  // como preparar un expediente con exactamente un animal para ver si el texto cambia
   test('muestra "1 mascota" en singular', () => {
     const clienteUnaMascota = {
       ...clienteConMascotas,
@@ -100,6 +108,8 @@ describe('ClienteCard', () => {
     expect(screen.getByText('Michi')).toBeInTheDocument();
   });
 
+  // verificamos que cada especie reciba su emoji correspondiente —
+  // como comprobar que el cartel de la jaula muestra el animal correcto
   test('muestra emoji correcto para cada especie de mascota', () => {
     renderCard(clienteConMascotas);
     const card = screen.getByTestId('cliente-card');
@@ -112,6 +122,8 @@ describe('ClienteCard', () => {
     expect(screen.queryByText('Firulais')).not.toBeInTheDocument();
   });
 
+  // disparamos el click y verificamos la ruta exacta que se pasó a navigate —
+  // como apretar el timbre y comprobar en qué consultorio sonó
   test('navega al detalle del cliente al hacer click', () => {
     renderCard(clienteConMascotas);
     fireEvent.click(screen.getByTestId('cliente-card'));

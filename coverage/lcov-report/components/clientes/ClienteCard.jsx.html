@@ -139,17 +139,7 @@
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,11 +148,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,22 +215,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useNavigate } from 'react-router-dom';
-import { RUTAS } from '../../utils/constants';
-import { EMOJI_ESPECIE } from '../../utils/constants';
+import { RUTAS, EMOJI_ESPECIE } from '../../utils/constants';
 &nbsp;
-/**
- * ClienteCard
- * Tarjeta resumen de un cliente con sus mascotas
- * Al hacer click navega al detalle del cliente
- *
- * Props:
- *   cliente: objeto Cliente con mascotas[] embebidas
- */
+// clientecard — la ficha de tutor en el archivador de recepción,
+// muestra un resumen del dueño y sus pacientes registrados,
+// al hacer click abre el expediente completo
 const ClienteCard = ({ cliente }) =&gt; {
   const navigate = useNavigate();
 &nbsp;
+  // abre el expediente completo del tutor — como sacar la carpeta del archivador
   const handleClick = () =&gt; {
     navigate(RUTAS.CLIENTES + `/${cliente.id}`);
   };
@@ -248,7 +235,7 @@ const ClienteCard = ({ cliente }) =&gt; {
       onClick={handleClick}
       data-testid="cliente-card"
     &gt;
-      {/* Cabecera */}
+      {/* encabezado — nombre del tutor y cuántos pacientes tiene registrados */}
       &lt;div className="flex items-start justify-between mb-3"&gt;
         &lt;div&gt;
           &lt;h3 className="titulo-display text-lg leading-tight group-hover:text-emerald-700 transition-colors"&gt;
@@ -256,7 +243,8 @@ const ClienteCard = ({ cliente }) =&gt; {
           &lt;/h3&gt;
           &lt;p className="text-stone-400 text-xs mt-0.5"&gt;{cliente.email}&lt;/p&gt;
         &lt;/div&gt;
-        {/* Indicador cantidad mascotas */}
+&nbsp;
+        {/* badge de cantidad — como el número en la solapa de la carpeta */}
         &lt;span className="flex-shrink-0 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full"&gt;
           {cliente.mascotas?.length ?? <span class="branch-1 cbranch-no" title="branch not covered" >0}</span>{' '}
           {cliente.mascotas?.length === 1 ? 'mascota' : 'mascotas'}
@@ -265,7 +253,7 @@ const ClienteCard = ({ cliente }) =&gt; {
 &nbsp;
       &lt;div className="separador" /&gt;
 &nbsp;
-      {/* Datos de contacto */}
+      {/* datos de contacto — dónde llamar si hay una emergencia con el paciente */}
       &lt;div className="space-y-1.5 mb-4"&gt;
         &lt;p className="flex items-center gap-2 text-sm text-stone-600"&gt;
           &lt;span aria-hidden="true"&gt;📞&lt;/span&gt;
@@ -277,7 +265,8 @@ const ClienteCard = ({ cliente }) =&gt; {
         &lt;/p&gt;
       &lt;/div&gt;
 &nbsp;
-      {/* Avatares de mascotas */}
+      {/* avatares de mascotas — la lista de pacientes asociados al tutor,
+          como los nombres escritos en la solapa de cada ficha clínica */}
       {cliente.mascotas?.length &gt; 0 &amp;&amp; (
         &lt;div className="flex flex-wrap gap-2"&gt;
           {cliente.mascotas.map((m) =&gt; (
@@ -292,7 +281,7 @@ const ClienteCard = ({ cliente }) =&gt; {
         &lt;/div&gt;
       )}
 &nbsp;
-      {/* Flecha indicadora */}
+      {/* flecha — invita a abrir el expediente completo */}
       &lt;div className="mt-3 flex justify-end"&gt;
         &lt;span className="text-stone-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all text-sm"&gt;
           Ver detalle →
@@ -302,15 +291,14 @@ const ClienteCard = ({ cliente }) =&gt; {
   );
 };
 &nbsp;
-export default ClienteCard;
-&nbsp;</pre></td></tr></table></pre>
+export default ClienteCard;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T18:03:51.654Z
+                at 2026-05-10T20:38:41.837Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

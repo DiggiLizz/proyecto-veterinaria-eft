@@ -126,31 +126,7 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,8 +134,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -186,21 +160,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -221,34 +181,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * constants.js
- * Constantes globales de la aplicación
- * Punto único de verdad para valores que se repiten en el proyecto
- */
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// dirección de la clínica — punto de partida de todas las peticiones al sistema
+export const API_BASE_URL = '/api';
+export const GRAPHQL_URL  = `${API_BASE_URL}/graphql`;
 &nbsp;
-// ─────────────────────────────────────────────
-// API
-// ─────────────────────────────────────────────
-export const API_BASE_URL = 'http://localhost:3000/api';
-export const GRAPHQL_URL = `${API_BASE_URL}/graphql`;
+// reglas de negocio — las normas internas de la clínica
 &nbsp;
-// ─────────────────────────────────────────────
-// REGLAS DE NEGOCIO
-// ─────────────────────────────────────────────
+// máximo de pacientes que se pueden atender en una jornada
 export const MAX_CITAS_POR_DIA = 8;
 &nbsp;
-// ─────────────────────────────────────────────
-// ESTADOS DE CITA
-// ─────────────────────────────────────────────
+// estados de cita — los stickers de colores que se pegan en cada turno
 export const ESTADOS_CITA = {
-  PENDIENTE: 'pendiente',
+  PENDIENTE:  'pendiente',
   CONFIRMADA: 'confirmada',
   COMPLETADA: 'completada',
-  CANCELADA: 'cancelada',
+  CANCELADA:  'cancelada',
 };
 &nbsp;
-// Colores Tailwind para cada estado (usados en Badge)
+// color del sticker según el estado del turno — semáforo de la sala de espera
 export const COLORES_ESTADO = {
   pendiente:  'bg-yellow-100 text-yellow-800',
   confirmada: 'bg-green-100  text-green-800',
@@ -256,7 +214,7 @@ export const COLORES_ESTADO = {
   cancelada:  'bg-red-100    text-red-800',
 };
 &nbsp;
-// Labels legibles en español para cada estado
+// texto legible del sticker — lo que dice el cartel en español
 export const LABELS_ESTADO = {
   pendiente:  'Pendiente',
   confirmada: 'Confirmada',
@@ -264,12 +222,10 @@ export const LABELS_ESTADO = {
   cancelada:  'Cancelada',
 };
 &nbsp;
-// ─────────────────────────────────────────────
-// ESPECIES
-// ─────────────────────────────────────────────
+// especies — los tipos de pacientes que atiende la clínica
 export const ESPECIES = ['Perro', 'Gato', 'Ave', 'Conejo', 'Reptil', 'Otro'];
 &nbsp;
-// Emojis para cada especie (usados en tarjetas de mascota)
+// emoji por especie — el dibujo en la etiqueta de la jaula o ficha del paciente
 export const EMOJI_ESPECIE = {
   Perro:  '🐶',
   Gato:   '🐱',
@@ -279,9 +235,7 @@ export const EMOJI_ESPECIE = {
   Otro:   '🐾',
 };
 &nbsp;
-// ─────────────────────────────────────────────
-// RUTAS DE NAVEGACIÓN
-// ─────────────────────────────────────────────
+// rutas de navegación — el mapa de pasillos de la clínica
 export const RUTAS = {
   HOME:            '/',
   CLIENTES:        '/clientes',
@@ -289,17 +243,15 @@ export const RUTAS = {
   CITAS:           '/citas',
 };
 &nbsp;
-// ─────────────────────────────────────────────
-// TEXTOS UI REUTILIZABLES
-// ─────────────────────────────────────────────
+// textos reutilizables — los carteles estándar de la clínica
 export const TEXTOS = {
-  CARGANDO:        'Cargando...',
-  SIN_RESULTADOS:  'No hay resultados para mostrar',
-  ERROR_GENERICO:  'Ocurrió un error al cargar los datos',
-  SIN_CITAS:       'No hay citas programadas para este día',
-  SIN_CLIENTES:    'No hay clientes registrados',
-  SIN_MASCOTAS:    'Este cliente no tiene mascotas registradas',
-  SIN_HISTORIAL:   'Sin historial médico registrado',
+  CARGANDO:       'Cargando...',
+  SIN_RESULTADOS: 'No hay resultados para mostrar',
+  ERROR_GENERICO: 'Ocurrió un error al cargar los datos',
+  SIN_CITAS:      'No hay citas programadas para este día',
+  SIN_CLIENTES:   'No hay clientes registrados',
+  SIN_MASCOTAS:   'Este cliente no tiene mascotas registradas',
+  SIN_HISTORIAL:  'Sin historial médico registrado',
 };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -307,7 +259,7 @@ export const TEXTOS = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T18:03:51.654Z
+                at 2026-05-10T20:38:41.837Z
             </div>
         <script src="../prettify.js"></script>
         <script>

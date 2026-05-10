@@ -1,14 +1,12 @@
-/**
- * api/index.js
- * Punto de entrada unificado para todas las capas de acceso a datos
- * REST y GraphQL
- */
+// api/index.js
+// puerta de entrada unificada a todas las capas de datos de la clínica —
+// rest y graphql disponibles desde un solo lugar, como una recepción central
 
-// ── REST ────────────────────────────────────────
+// ── rest — ventanilla de fichas y agenda por http ──
 export * from './rest/citasApi';
 export * from './rest/clientesApi';
 
-// ── GraphQL ─────────────────────────────────────
+// ── graphql — ventanilla de consultas específicas al laboratorio ──
 export * from './graphql/graphqlApi';
 export * from './graphql/queries';
 export * from './graphql/client';

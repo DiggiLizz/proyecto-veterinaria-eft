@@ -2,15 +2,12 @@ import Badge from '../ui/Badge';
 import { EMOJI_ESPECIE } from '../../utils/constants';
 import { formatHora } from '../../utils/formatDate';
 
-/**
- * CitaCard
- * Tarjeta de una cita agendada
- * Muestra: hora, mascota, dueño y veterinario
- *
- * Props:
- *   cita: objeto Cita con mascota, cliente y veterinario embebidos
- */
+// citacard — la ficha de turno que se pega en la puerta de la sala de espera,
+// muestra todo lo que el veterinario necesita saber antes de llamar al paciente:
+// a qué hora llega, quién es la mascota, quién es el tutor y quién la atiende
 const CitaCard = ({ cita }) => {
+
+  // si la especie no está en el diccionario, usamos la huella genérica
   const emojiEspecie = EMOJI_ESPECIE[cita.mascota?.especie] ?? '🐾';
 
   return (
@@ -18,7 +15,7 @@ const CitaCard = ({ cita }) => {
       className="card flex flex-col gap-3"
       data-testid="cita-card"
     >
-      {/* Fila superior: hora y estado */}
+      {/* hora de llegada y estado del turno — lo primero que mira la recepcionista */}
       <div className="flex items-center justify-between">
         <span className="text-2xl font-bold text-emerald-700 tracking-tight">
           {formatHora(cita.hora)}
@@ -28,7 +25,7 @@ const CitaCard = ({ cita }) => {
 
       <div className="separador" />
 
-      {/* Mascota */}
+      {/* paciente — especie, nombre y raza, como la etiqueta de la jaula */}
       <div className="flex items-center gap-2">
         <span className="text-xl select-none" aria-hidden="true">
           {emojiEspecie}
@@ -45,7 +42,7 @@ const CitaCard = ({ cita }) => {
         </div>
       </div>
 
-      {/* Dueño */}
+      {/* tutor — quien firma el consentimiento y paga la consulta */}
       <div className="flex items-center gap-2">
         <span className="text-xl select-none" aria-hidden="true">👤</span>
         <div className="min-w-0">
@@ -59,7 +56,7 @@ const CitaCard = ({ cita }) => {
         </div>
       </div>
 
-      {/* Veterinario */}
+      {/* médico a cargo — el que tiene el estetoscopio ese día */}
       <div className="flex items-center gap-2">
         <span className="text-xl select-none" aria-hidden="true">🩺</span>
         <div className="min-w-0">
@@ -73,7 +70,7 @@ const CitaCard = ({ cita }) => {
         </div>
       </div>
 
-      {/* Motivo si existe */}
+      {/* motivo de consulta — el "¿qué le pasa hoy?" de la anamnesis */}
       {cita.motivo && (
         <>
           <div className="separador" />
@@ -84,7 +81,7 @@ const CitaCard = ({ cita }) => {
         </>
       )}
 
-      {/* Notas si existen */}
+      {/* notas clínicas — observaciones que el vet dejó en el expediente */}
       {cita.notas && (
         <p className="text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2">
           📌 {cita.notas}

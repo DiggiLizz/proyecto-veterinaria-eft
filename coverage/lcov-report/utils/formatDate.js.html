@@ -129,36 +129,8 @@
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,14 +148,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -194,9 +162,6 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,12 +181,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,66 +192,50 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * formatDate.js
- * Funciones puras para formatear fechas y horas
- * No dependen de librerías externas — solo Intl API nativa
- */
-&nbsp;
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// locale de la clínica — todos los formatos de fecha y hora en español chileno
 const LOCALE = 'es-CL';
 &nbsp;
-/**
- * Formatea una fecha ISO 'YYYY-MM-DD' a formato legible
- * @example formatFecha('2025-06-10') → 'martes, 10 de junio de 2025'
- */
+// formatfecha — escribe la fecha completa como aparece en el encabezado de una ficha clínica
+// ejemplo: 'martes, 10 de junio de 2025'
 export const formatFecha = (fechaISO) =&gt; {
   if (!fechaISO) return '';
-  // Se agrega T00:00:00 para evitar desfase de zona horaria
+  // el t00:00:00 evita que el cambio de zona horaria adelante o atrase el día
   const date = new Date(`${fechaISO}T00:00:00`);
   return date.toLocaleDateString(LOCALE, {
     weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    year:    'numeric',
+    month:   'long',
+    day:     'numeric',
   });
 };
 &nbsp;
-/**
- * Formatea una fecha ISO a formato corto
- * @example formatFechaCorta('2025-06-10') → '10/06/2025'
- */
+// formatfechacorta — la fecha abreviada que se sella en el historial médico
+// ejemplo: '10/06/2025'
 export const formatFechaCorta = (fechaISO) =&gt; {
   if (!fechaISO) return '';
   const date = new Date(`${fechaISO}T00:00:00`);
   return date.toLocaleDateString(LOCALE);
 };
 &nbsp;
-/**
- * Formatea una hora 'HH:MM' a formato 12h con AM/PM
- * @example formatHora('14:30') → '2:30 PM'
- */
+// formathora — convierte la hora del turno al formato que aparece en el tablero de espera
+// ejemplo: '14:30' → '2:30 PM'
 export const formatHora = (hora) =&gt; {
   if (!hora) return '';
   const [hh, mm] = hora.split(':');
   const date = new Date();
   date.setHours(Number(hh), Number(mm));
   return date.toLocaleTimeString(LOCALE, {
-    hour: 'numeric',
+    hour:   'numeric',
     minute: '2-digit',
     hour12: true,
   });
 };
 &nbsp;
-/**
- * Convierte un objeto Date a string 'YYYY-MM-DD'
- * Útil para pasar como parámetro a los hooks
- * @example toISODate(new Date()) → '2025-06-10'
- */
+// toisodate — convierte un objeto date al formato que entiende la agenda de la clínica
+// ejemplo: new Date() → '2025-06-10'
 export const toISODate = (date) =&gt; {
   if (!date) return null;
   if (typeof date === 'string') return date;
@@ -301,26 +245,19 @@ export const toISODate = (date) =&gt; {
   return `${y}-${m}-${d}`;
 };
 &nbsp;
-/**
- * Retorna el string 'YYYY-MM-DD' del día de hoy
- * @example hoy() → '2025-06-10'
- */
+// hoy — devuelve la fecha de hoy en el formato de la agenda,
+// como abrir el calendario y apuntar al día de hoy
 export const hoy = () =&gt; toISODate(new Date());
 &nbsp;
-/**
- * Calcula la edad en años a partir de un número
- * Retorna el string formateado para mostrar
- * @example formatEdad(1) → '1 año'  formatEdad(3) → '3 años'
- */
+// formatedad — escribe la edad del paciente como aparece en su ficha clínica
+// ejemplo: 1 → '1 año', 3 → '3 años'
 export const formatEdad = (años) =&gt; {
   if (años === undefined || años === null) return '';
   return años === 1 ? '1 año' : `${años} años`;
 };
 &nbsp;
-/**
- * Formatea el peso en kg
- * @example formatPeso(28.5) → '28.5 kg'
- */
+// formatpeso — el peso que anota el vet después de poner al paciente en la balanza
+// ejemplo: 28.5 → '28.5 kg', null → 'No registrado'
 export const formatPeso = (kg) =&gt; {
   if (kg === null || kg === undefined) return 'No registrado';
   return `${kg} kg`;
@@ -331,7 +268,7 @@ export const formatPeso = (kg) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T18:03:51.654Z
+                at 2026-05-10T20:38:41.837Z
             </div>
         <script src="../prettify.js"></script>
         <script>

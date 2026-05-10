@@ -1,23 +1,27 @@
+/* importamos las fuentes de la clínica — la tipografía del letrero y del cuerpo */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
 
 @import "tailwindcss";
 
+/* variables globales — la paleta de colores y materiales de la clínica */
 :root {
-  --color-fondo:          #faf8f5;
-  --color-superficie:     #ffffff;
-  --color-borde:          #e8e2d9;
-  --color-primario:       #059669;
-  --color-primario-claro: #d1fae5;
-  --color-texto:          #1c1917;
-  --color-texto-suave:    #78716c;
-  --fuente-display: 'Playfair Display', Georgia, serif;
-  --fuente-cuerpo:  'DM Sans', system-ui, sans-serif;
-  --sombra-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
-  --sombra-hover: 0 4px 16px rgba(0,0,0,0.10);
+  --color-fondo:          #faf8f5; /* el tono cálido de las paredes de la sala de espera */
+  --color-superficie:     #ffffff; /* el blanco de las fichas y formularios */
+  --color-borde:          #e8e2d9; /* el color del borde de las carpetas del archivador */
+  --color-primario:       #059669; /* el verde institucional de la clínica */
+  --color-primario-claro: #d1fae5; /* el verde suave de los stickers confirmados */
+  --color-texto:          #1c1917; /* el color de la tinta en las fichas */
+  --color-texto-suave:    #78716c; /* el color de las anotaciones secundarias */
+  --fuente-display: 'Playfair Display', Georgia, serif; /* la fuente del letrero de entrada */
+  --fuente-cuerpo:  'DM Sans', system-ui, sans-serif;   /* la fuente del texto de las fichas */
+  --sombra-card:  0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04); /* sombra en reposo */
+  --sombra-hover: 0 4px 16px rgba(0,0,0,0.10); /* sombra al levantar la ficha de la mesa */
 }
 
+/* reset de caja — todas las fichas y tarjetas miden igual por dentro */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* cuerpo — la sala de espera de la clínica, fondo cálido y texto legible */
 body {
   background-color: var(--color-fondo);
   color: var(--color-texto);
@@ -26,6 +30,8 @@ body {
   min-height: 100vh;
 }
 
+/* card — la ficha clínica individual, se levanta un poco al pasar el cursor,
+   como sacar una carpeta del archivador para verla mejor */
 .card {
   background-color: #ffffff;
   border-radius: 1rem;
@@ -39,11 +45,15 @@ body {
   transform: translateY(-1px);
 }
 
+/* titulo-display — la tipografía del letrero de entrada,
+   usada en títulos y nombres importantes */
 .titulo-display {
   font-family: var(--fuente-display);
   color: var(--color-texto);
 }
 
+/* btn-primario — el botón verde institucional de la clínica,
+   se oscurece al pasar el cursor como un sello que presionas */
 .btn-primario {
   display: inline-flex;
   align-items: center;
@@ -57,9 +67,11 @@ body {
   color: #ffffff;
   transition: all 150ms;
 }
-.btn-primario:hover { background-color: #047857; }
+.btn-primario:hover  { background-color: #047857; }
 .btn-primario:active { transform: scale(0.95); }
 
+/* separador — la línea que divide secciones dentro de una ficha clínica,
+   como el rayado horizontal del formulario de anamnesis */
 .separador {
   border-top: 1px solid #f5f5f4;
   margin-top: 1rem;

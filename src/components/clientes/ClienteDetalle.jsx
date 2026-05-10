@@ -6,25 +6,26 @@ import EmptyState from '../ui/EmptyState';
 import { EMOJI_ESPECIE, TEXTOS } from '../../utils/constants';
 import { formatEdad, formatPeso, formatFechaCorta } from '../../utils/formatDate';
 
-/**
- * ClienteDetalle
- * Vista completa de un cliente: datos personales + lista de mascotas con historial
- *
- * Props:
- *   id: string — id del cliente a mostrar
- */
+// clientedetalle — el expediente completo del tutor,
+// incluye sus datos personales y todas las fichas clínicas
+// de sus mascotas con el historial médico de cada una
 const ClienteDetalle = ({ id }) => {
   const navigate = useNavigate();
   const { cliente, loading, error } = useClienteDetalle(id);
 
+  // mientras se busca el expediente en el archivador
   if (loading) return <Spinner texto="Cargando cliente..." />;
+
+  // si algo salió mal al buscar la ficha
   if (error)   return <ErrorMessage mensaje={error} />;
+
+  // si el tutor no existe en el sistema
   if (!cliente) return <EmptyState icono="👤" titulo="Cliente no encontrado" />;
 
   return (
     <div className="space-y-6" data-testid="cliente-detalle">
 
-      {/* Botón volver */}
+      {/* botón volver — como cerrar el expediente y devolverlo al archivador */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-emerald-700 transition-colors"
@@ -32,7 +33,7 @@ const ClienteDetalle = ({ id }) => {
         ← Volver
       </button>
 
-      {/* Datos del cliente */}
+      {/* ficha del tutor — datos personales y de contacto */}
       <div className="card">
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -46,6 +47,7 @@ const ClienteDetalle = ({ id }) => {
 
         <div className="separador" />
 
+        {/* grilla de datos — los campos de la ficha de anamnesis del tutor */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Dato icono="📞" label="Teléfono" valor={cliente.telefono} />
           <Dato icono="📧" label="Email" valor={cliente.email || '—'} />
@@ -58,15 +60,12 @@ const ClienteDetalle = ({ id }) => {
         </div>
       </div>
 
-      {/* Mascotas */}
+      {/* lista de pacientes — todas las mascotas registradas bajo este tutor */}
       <div>
         <h3 className="titulo-display text-xl mb-3">Mascotas</h3>
 
         {!cliente.mascotas?.length ? (
-          <EmptyState
-            icono="🐾"
-            titulo={TEXTOS.SIN_MASCOTAS}
-          />
+          <EmptyState icono="🐾" titulo={TEXTOS.SIN_MASCOTAS} />
         ) : (
           <div className="space-y-4">
             {cliente.mascotas.map((mascota) => (
@@ -79,8 +78,8 @@ const ClienteDetalle = ({ id }) => {
   );
 };
 
-/* ── Sub-componentes internos ── */
 
+// dato — un campo individual de la ficha, como una línea del formulario de ingreso
 const Dato = ({ icono, label, valor }) => (
   <div className="flex items-start gap-2">
     <span className="text-base mt-0.5" aria-hidden="true">{icono}</span>
@@ -91,9 +90,12 @@ const Dato = ({ icono, label, valor }) => (
   </div>
 );
 
+// mascotapanel — la ficha clínica individual de un paciente,
+// con sus datos básicos y el historial médico completo
 const MascotaPanel = ({ mascota }) => (
   <div className="card" data-testid="mascota-panel">
-    {/* Cabecera mascota */}
+
+    {/* encabezado del paciente — especie, nombre y raza */}
     <div className="flex items-center gap-3 mb-4">
       <span className="text-3xl" aria-hidden="true">
         {EMOJI_ESPECIE[mascota.especie] ?? '🐾'}
@@ -106,14 +108,16 @@ const MascotaPanel = ({ mascota }) => (
       </div>
     </div>
 
+    {/* datos clínicos básicos — edad y peso, los primeros que anota el vet */}
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-      <Dato icono="🎂" label="Edad"  valor={formatEdad(mascota.edad)} />
-      <Dato icono="⚖️" label="Peso"  valor={formatPeso(mascota.peso)} />
+      <Dato icono="🎂" label="Edad" valor={formatEdad(mascota.edad)} />
+      <Dato icono="⚖️" label="Peso" valor={formatPeso(mascota.peso)} />
     </div>
 
     <div className="separador" />
 
-    {/* Historial médico */}
+    {/* historial médico — el registro de todas las consultas anteriores,
+        como las páginas anteriores del cuaderno clínico del paciente */}
     <div>
       <p className="text-xs text-stone-400 uppercase tracking-wide mb-3">
         Historial médico
@@ -132,6 +136,8 @@ const MascotaPanel = ({ mascota }) => (
   </div>
 );
 
+// entradahistorial — una consulta pasada en el cuaderno clínico,
+// fecha, veterinario que atendió, diagnóstico y tratamiento indicado
 const EntradaHistorial = ({ entrada }) => (
   <div className="bg-stone-50 rounded-xl p-3 border border-stone-100">
     <div className="flex items-center justify-between mb-1">

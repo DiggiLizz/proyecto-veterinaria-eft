@@ -130,18 +130,7 @@
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
 <a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -169,6 +158,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,13 +179,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -196,26 +192,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * citasSlice.js
- * Estado global para citas:
- * - fecha seleccionada en el filtro
- * - lista de citas del día
- * - estados de carga y error
- */
-&nbsp;
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCitasPorFecha } from '../../api/rest/citasApi';
 &nbsp;
-// ── Thunk asíncrono ──────────────────────────────────────────────────────────
-&nbsp;
+// fetchcitas — el asistente que va al archivador a buscar los turnos del día,
+// si algo sale mal al buscar, devuelve el mensaje de error en vez de romper todo
 export const fetchCitas = createAsyncThunk(
   'citas/fetchCitas',
 <span class="fstat-no" title="function not covered" >  as</span>ync (fecha, { rejectWithValue }) =&gt; {
@@ -227,20 +213,24 @@ export const fetchCitas = createAsyncThunk(
   }
 );
 &nbsp;
-// ── Slice ────────────────────────────────────────────────────────────────────
-&nbsp;
+// citasslice — el tablero de la sala de espera en redux,
+// guarda qué día se está viendo, qué turnos hay y si está cargando o hubo error
 const citasSlice = createSlice({
   name: 'citas',
   initialState: {
-    lista:   [],
-    fecha:   null,
-    loading: false,
-    error:   null,
+    lista:   [], // los turnos del día en el tablero
+    fecha:   null, // qué página de la agenda está abierta
+    loading: false, // el asistente está buscando en el archivador
+    error:   null, // algo salió mal al buscar los turnos
   },
   reducers: {
+&nbsp;
+    // cambia el día visible — como pasar la hoja de la agenda
     setFecha(state, action) {
       state.fecha = action.payload;
     },
+&nbsp;
+    // borra los turnos del tablero — como borrar el pizarrón al cerrar la jornada
     limpiarCitas(state) {
       state.lista  = [];
       state.error  = null;
@@ -248,14 +238,17 @@ const citasSlice = createSlice({
   },
   extraReducers: (builder) =&gt; {
     builder
+      // el asistente salió a buscar — mostramos que está en camino
       .addCase(fetchCitas.pending, (state) =&gt; {
         state.loading = true;
         state.error   = null;
       })
+      // el asistente volvió con los turnos — los pegamos en el tablero
       .addCase(fetchCitas.fulfilled, (state, action) =&gt; {
         state.loading = false;
         state.lista   = action.payload;
       })
+      // el asistente no encontró nada o hubo un problema en el camino
       .addCase(fetchCitas.rejected, (state, action) =&gt; {
         state.loading = false;
         state.error   = action.payload;
@@ -265,22 +258,20 @@ const citasSlice = createSlice({
 &nbsp;
 export const { setFecha, limpiarCitas } = citasSlice.actions;
 &nbsp;
-// ── Selectores ───────────────────────────────────────────────────────────────
-&nbsp;
+// selectores — las ventanillas para consultar partes específicas del tablero
 export const selectCitas   = (state) =&gt; state.citas.lista;
 export const selectFecha   = (state) =&gt; state.citas.fecha;
 export const selectLoading = (state) =&gt; state.citas.loading;
 export const selectError   = (state) =&gt; state.citas.error;
 &nbsp;
-export default citasSlice.reducer;
-&nbsp;</pre></td></tr></table></pre>
+export default citasSlice.reducer;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-10T18:03:51.654Z
+                at 2026-05-10T20:38:41.837Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

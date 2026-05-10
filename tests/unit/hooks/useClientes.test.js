@@ -1,9 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useClientes, useClienteDetalle } from '../../../src/hooks/useClientes';
 
-// ─────────────────────────────────────────────
 // Mocks de datos
-// ─────────────────────────────────────────────
+
+// dos clientes: uno con mascota y otro sin, para cubrir ambos casos del listado —
+// como tener preparadas dos fichas distintas antes de empezar la jornada
 const clientesMock = [
   {
     id: 1,
@@ -23,6 +24,8 @@ const clientesMock = [
   },
 ];
 
+// detalle completo del cliente 1 con raza incluida —
+// como abrir la carpeta individual con todos los antecedentes del paciente
 const clienteDetalleMock = {
   id: 1,
   nombre: 'Juan Pérez',
@@ -30,21 +33,24 @@ const clienteDetalleMock = {
   mascotas: [{ id: 10, nombre: 'Firulais', especie: 'Perro', raza: 'Labrador' }],
 };
 
-// ─────────────────────────────────────────────
 // Setup / Teardown
-// ─────────────────────────────────────────────
+
+// reemplazamos fetch global por un mock controlable antes de cada test —
+// como conectar una línea telefónica falsa antes de cada llamada de prueba
 beforeEach(() => {
   global.fetch = jest.fn();
 });
 
+// restauramos todos los mocks al estado original después de cada test —
+// como descolgar la línea falsa para que el siguiente test empiece limpio
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-// ─────────────────────────────────────────────
 // useClientes
-// ─────────────────────────────────────────────
 describe('useClientes', () => {
+  // leemos el estado sincrónico antes de que fetch resuelva —
+  // como revisar el tablero justo cuando el médico acaba de salir a buscar las fichas
   test('inicia con loading=true, clientes=[] y error=null', () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -88,6 +94,8 @@ describe('useClientes', () => {
     );
   });
 
+  // ok: false simula una respuesta HTTP de error sin lanzar excepción —
+  // como recibir una carta que dice "servicio no disponible" en vez de que el correo se pierda
   test('setea error cuando la respuesta no es ok', async () => {
     global.fetch.mockResolvedValueOnce({ ok: false, status: 503 });
 
@@ -99,6 +107,8 @@ describe('useClientes', () => {
     expect(result.current.clientes).toEqual([]);
   });
 
+  // mockRejectedValue simula un fallo de red antes de recibir cualquier respuesta —
+  // como que la llamada no llegue nunca al destinatario por falta de señal
   test('setea error en fallo de red', async () => {
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -110,10 +120,10 @@ describe('useClientes', () => {
   });
 });
 
-// ─────────────────────────────────────────────
 // useClienteDetalle
-// ─────────────────────────────────────────────
 describe('useClienteDetalle', () => {
+  // cliente arranca en null, no en [], porque se espera un objeto o nada —
+  // como dejar el porta-fichas vacío hasta que se encuentre la carpeta del paciente
   test('inicia con loading=true, cliente=null y error=null', () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -141,6 +151,8 @@ describe('useClienteDetalle', () => {
     expect(result.current.error).toBeNull();
   });
 
+  // usamos id=42 para verificar que el hook interpola el id en la URL —
+  // como pedir la ficha del box 42 y confirmar que el pedido llegó con ese número
   test('llama al endpoint /clientes/:id', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: true,
@@ -157,11 +169,15 @@ describe('useClienteDetalle', () => {
     );
   });
 
+  // sin id el hook no debe disparar ninguna llamada a la API —
+  // como no salir a buscar una ficha si no se sabe el nombre del paciente
   test('no hace fetch si id es undefined o null', () => {
     renderHook(() => useClienteDetalle(null));
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
+  // 404 es un error HTTP válido que el hook debe capturar y exponer en error —
+  // como recibir la respuesta "ese paciente no existe en el sistema"
   test('setea error cuando el cliente no se encuentra (404)', async () => {
     global.fetch.mockResolvedValueOnce({ ok: false, status: 404 });
 

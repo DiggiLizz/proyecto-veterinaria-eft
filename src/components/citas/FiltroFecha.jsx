@@ -1,21 +1,19 @@
 import { hoy, toISODate, formatFecha } from '../../utils/formatDate';
 
-/**
- * FiltroFecha
- * Selector de fecha para filtrar las citas del día
- * Muestra la fecha seleccionada en formato legible
- *
- * Props:
- *   fecha:       string 'YYYY-MM-DD' — fecha actualmente seleccionada
- *   onCambio:    función que recibe el nuevo string 'YYYY-MM-DD'
- */
+// filtrofecha — el calendario de pared de la clínica,
+// permite cambiar de día para ver qué pacientes están agendados,
+// como pasar las hojas de la agenda física en recepción
 const FiltroFecha = ({ fecha, onCambio }) => {
+
+  // guardamos el día de hoy para saber si el vet está viendo la agenda actual
   const fechaHoy = hoy();
 
+  // cuando cambia el input, avisamos al padre con la nueva fecha seleccionada
   const handleChange = (e) => {
     onCambio(e.target.value);
   };
 
+  // volver a hoy — como cerrar la agenda y abrirla en la página de hoy
   const irAHoy = () => {
     onCambio(fechaHoy);
   };
@@ -25,7 +23,7 @@ const FiltroFecha = ({ fecha, onCambio }) => {
       className="flex flex-col sm:flex-row sm:items-center gap-3"
       data-testid="filtro-fecha"
     >
-      {/* Input de fecha nativo */}
+      {/* el datepicker — el dedo que apunta a qué día de la agenda mirar */}
       <div className="relative">
         <label
           htmlFor="filtro-fecha-input"
@@ -48,14 +46,15 @@ const FiltroFecha = ({ fecha, onCambio }) => {
         />
       </div>
 
-      {/* Fecha en formato legible */}
+      {/* fecha en lenguaje humano — como leer la agenda en voz alta en la mañana */}
       <div className="sm:mt-5">
         <p className="titulo-display text-base text-stone-700 capitalize">
           {formatFecha(fecha)}
         </p>
       </div>
 
-      {/* Botón ir a hoy — solo visible si no está en hoy */}
+      {/* botón de regreso — solo aparece si el vet está mirando otro día,
+          como el recordatorio de volver a la página de hoy */}
       {fecha !== fechaHoy && (
         <button
           onClick={irAHoy}
