@@ -13,7 +13,15 @@ El sistema permite:
 
 
 🧬 Stack Tecnológico
-CapaTecnologíaUIReact 19 + Tailwind CSSNavegaciónReact Router DOM v7Estado globalRedux ToolkitComunicación RESTAxios + MSW (mock)Comunicación GraphQLApollo Client + MSW (mock)Pruebas unitariasJest + React Testing LibraryPruebas E2ECypress
+| Capa | Tecnología |
+|------|------------|
+| UI | React 19 + Tailwind CSS |
+| Navegación | React Router DOM v7 |
+| Estado global | Redux Toolkit |
+| Comunicación REST | Axios + MSW (mock) |
+| Comunicación GraphQL | Apollo Client + MSW (mock) |
+| Pruebas unitarias | Jest + React Testing Library |
+| Pruebas E2E | Cypress |
 
 ⚙️ Instalación y ejecución
 Requisitos previos
@@ -36,7 +44,12 @@ npm run dev
 La aplicación estará disponible en http://localhost:5173
 
 🗺️ Rutas de la aplicación
-RutaDescripción/Página de inicio con resumen del sistema/clientesListado de clientes y sus mascotas/clientes/:idDetalle de un cliente específico/citasCitas del día con filtro por fecha
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Página de inicio con resumen del sistema |
+| `/clientes` | Listado de clientes y sus mascotas |
+| `/clientes/:id` | Detalle de un cliente específico |
+| `/citas` | Citas del día con filtro por fecha |
 
 🧪 Pruebas
 Pruebas unitarias (Jest)
@@ -56,6 +69,8 @@ Seleccionar E2E Testing → Chrome → citas.cy.js
 ✅ 17/17 tests E2E pasando.
 
 📁 Estructura del proyecto
+```
+📁 Estructura del proyecto
 src/
   api/           # Integración REST y GraphQL
   components/    # Componentes reutilizables
@@ -71,14 +86,15 @@ src/
   store/         # Redux store y slices
   utils/         # Utilidades y constantes
 tests/
-  unit/          # Pruebas unitarias organizadas por tipo
+  unit/
     components/
     hooks/
     utils/
     ui/
     store/
 cypress/
-  e2e/           # Pruebas end-to-end
+  e2e/
+```
 
 🔬 Arquitectura del backend mock
 El backend es completamente simulado usando MSW (Mock Service Worker), que intercepta las peticiones HTTP en el navegador sin necesitar un servidor real.
