@@ -15,8 +15,7 @@ import './App.css';
 function App() {
 
   // Detectamos si estamos en la sucursal de GitHub Pages para guiar a React Router
-  const isGitHubPages = window.location.hostname.includes('github.io');
-  const baseFolder = isGitHubPages ? '/proyecto-veterinaria-eft' : '/';
+  const baseFolder = import.meta.env.BASE_URL;
 
   return (
     <BrowserRouter basename={baseFolder}>
